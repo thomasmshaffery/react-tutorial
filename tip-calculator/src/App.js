@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BillInput />
+      <Service>How did you like the service?</Service>
+      <Service>How did your friend like the service?</Service>
+      <DisplayBillTotal />
+      <Reset />
     </div>
   );
 }
 
-export default App;
+function BillInput() {
+  return (
+    <div>
+      How much was the bill?<input type="text"></input>
+    </div>
+  );
+}
+
+function Service({ children }) {
+  return (
+    <div>
+      {children}
+      <select>
+        <option>Dissatisfied (0%)</option>
+        <option>It was okay (5%)</option>
+        <option>It was good (10%)</option>
+        <option>Absolutely amazing! (20%)</option>
+      </select>
+    </div>
+  );
+}
+
+function DisplayBillTotal() {
+  return (
+    <p>
+      <h3>You pay filler (filler).</h3>
+    </p>
+  );
+}
+
+function Reset() {
+  return (
+    <div>
+      <button>Reset</button>
+    </div>
+  );
+}
