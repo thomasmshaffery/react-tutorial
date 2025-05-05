@@ -4,6 +4,7 @@ export default function App() {
   const [bill, setBill] = useState(0);
   const [myTip, setMyTip] = useState(0);
   const [friendTip, setFriendTip] = useState(0);
+  const tip = bill * ((myTip + friendTip) / 2 / 100);
 
   function reset() {
     setBill(0);
@@ -20,7 +21,7 @@ export default function App() {
       <Service tip={friendTip} setTip={setFriendTip}>
         How did your friend like the service?
       </Service>
-      <DisplayBillTotal bill={bill} myTip={myTip} friendTip={friendTip} />
+      <DisplayBillTotal bill={bill} tip={tip} />
       <Reset reset={reset} />
     </div>
   );
@@ -44,24 +45,20 @@ function Service({ tip, setTip, children }) {
     <div>
       {children}
       <select value={tip} onChange={(e) => setTip(Number(e.target.value))}>
-        <option value=".0">Dissatisfied (0%)</option>
-        <option value=".05">It was okay (5%)</option>
-        <option value=".10">It was good (10%)</option>
-        <option value=".20">Absolutely amazing! (20%)</option>
+        <option value="0">Dissatisfied (0%)</option>
+        <option value="5">It was okay (5%)</option>
+        <option value="10">It was good (10%)</option>
+        <option value="20">Absolutely amazing! (20%)</option>
       </select>
     </div>
   );
 }
 
-function DisplayBillTotal({ bill, myTip, friendTip }) {
-  const myTipCalculated = Number(bill) * Number(myTip);
-  const friendTipCalculated = Number(bill) * Number(friendTip);
-  const totalTip = (myTipCalculated + friendTipCalculated) / 2;
-
+function DisplayBillTotal({ bill, tip }) {
   return (
     <p>
       <h3>
-        You pay ${bill + totalTip} + (${bill} + ${totalTip}).
+        You pay ${bill + tip} + (${bill} + ${tip} tip).
       </h3>
     </p>
   );
