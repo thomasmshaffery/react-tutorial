@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 
 export default function App() {
-  const [bill, setBill] = useState(null);
+  const [bill, setBill] = useState(0);
   const [myTip, setMyTip] = useState(0);
   const [friendTip, setFriendTip] = useState(0);
+
+  function reset() {
+    setBill(0);
+    setMyTip(0);
+    setFriendTip(0);
+  }
 
   return (
     <div>
@@ -15,7 +21,7 @@ export default function App() {
         How did your friend like the service?
       </Service>
       <DisplayBillTotal bill={bill} myTip={myTip} friendTip={friendTip} />
-      <Reset />
+      <Reset reset={reset} />
     </div>
   );
 }
@@ -38,29 +44,33 @@ function Service({ tip, setTip, children }) {
     <div>
       {children}
       <select value={tip} onChange={(e) => setTip(Number(e.target.value))}>
-        <option value="0">Dissatisfied (0%)</option>
-        <option value="5">It was okay (5%)</option>
-        <option value="10">It was good (10%)</option>
-        <option value="20">Absolutely amazing! (20%)</option>
+        <option value=".0">Dissatisfied (0%)</option>
+        <option value=".05">It was okay (5%)</option>
+        <option value=".10">It was good (10%)</option>
+        <option value=".20">Absolutely amazing! (20%)</option>
       </select>
     </div>
   );
 }
 
 function DisplayBillTotal({ bill, myTip, friendTip }) {
+  const myTipCalculated = Number(bill) * Number(myTip);
+  const friendTipCalculated = Number(bill) * Number(friendTip);
+  const totalTip = (myTipCalculated + friendTipCalculated) / 2;
+
   return (
     <p>
       <h3>
-        You pay {bill} + {myTip} + {friendTip}.
+        You pay ${bill + totalTip} + (${bill} + ${totalTip}).
       </h3>
     </p>
   );
 }
 
-function Reset() {
+function Reset({ reset }) {
   return (
     <div>
-      <button>Reset</button>
+      <button onClick={reset}>Reset</button>
     </div>
   );
 }
