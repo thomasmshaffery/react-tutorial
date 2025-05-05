@@ -21,8 +21,12 @@ export default function App() {
       <Service tip={friendTip} setTip={setFriendTip}>
         How did your friend like the service?
       </Service>
-      <DisplayBillTotal bill={bill} tip={tip} />
-      <Reset reset={reset} />
+      {bill > 0 && (
+        <>
+          <DisplayBillTotal bill={bill} tip={tip} />
+          <Reset reset={reset} />{" "}
+        </>
+      )}
     </div>
   );
 }
