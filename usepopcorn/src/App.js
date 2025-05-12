@@ -115,7 +115,6 @@ function ListBox() {
 }
 
 function MovieList() {
-  const [movies, setMovies] = useState(tempMovieData);
   return (
     <ul className="list">
       {movies?.map((movie) => (
@@ -226,6 +225,7 @@ function WatchedMovie({ movie }) {
 }
 
 export default function App() {
+  const [movies, setMovies] = useState(tempMovieData);
   return (
     <>
       <NavBar />
