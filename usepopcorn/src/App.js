@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import KEY from "key.js";
 
 const tempMovieData = [
   {
