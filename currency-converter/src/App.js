@@ -6,8 +6,40 @@ export default function App() {
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("USD");
   const [amount, setAmount] = useState("100");
+  const [display, setDisplay] = useState("");
 
-  useEffect(function () {}, []);
+  function calculateConverted(conversion) {
+    setDisplay(conversion);
+  }
+
+  useEffect(
+    function () {
+      const controller = new AbortController();
+
+      async function getConversion() {
+        try {
+          const res = await fetch(
+            `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`,
+            { signal: controller.signal }
+          );
+
+          if (!res.ok) throw new Error("Something went wrong.");
+
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("API Fail.");
+          setDisplay(data.rates[toCurrency].toFixed(2));
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
+
+      getConversion();
+      return function () {
+        controller.abort();
+      };
+    },
+    [amount, fromCurrency, toCurrency]
+  );
 
   return (
     <div>
@@ -34,9 +66,7 @@ export default function App() {
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <p>
-        {amount} {fromCurrency} {toCurrency}
-      </p>
+      <p>{display}</p>
     </div>
   );
 }
