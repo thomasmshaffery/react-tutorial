@@ -8,10 +8,6 @@ export default function App() {
   const [amount, setAmount] = useState("100");
   const [display, setDisplay] = useState("");
 
-  function calculateConverted(conversion) {
-    setDisplay(conversion);
-  }
-
   useEffect(
     function () {
       const controller = new AbortController();
