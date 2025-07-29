@@ -8,8 +8,6 @@ import Login from "./pages/Login";
 import CityList from "./components/CityList";
 import { useEffect, useState } from "react";
 
-const BASE_URL = "http://localhost:9000/";
-
 function App() {
   const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,9 +16,11 @@ function App() {
     async function fetchCities() {
       try {
         setIsLoading(true);
-        const res = await fetch(`${BASE_URL}/cities`);
+        const res = await fetch("./cities.json");
+        if (!res.ok) throw new Error("Unable to retrieve citiess.");
+
         const data = await res.json();
-        setCities(data);
+        setCities(data.cities);
       } catch {
         alert("There was an error loading data...");
       } finally {
